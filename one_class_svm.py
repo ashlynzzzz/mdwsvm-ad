@@ -1,7 +1,7 @@
 import numpy as np
 import cvxpy as cp
 
-def one_class_svm(X, v, K = lambda u, v: np.exp(-np.linalg.norm(u - v)**2/2)):
+def one_class_svm(X, v, K = lambda x, y: np.exp(-np.linalg.norm(x - y)**2/2)):
     '''
     This function aims to do one-class svm and label anomalous vectors as +1
 
