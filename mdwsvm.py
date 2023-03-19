@@ -6,7 +6,7 @@ def mdwsvm(X, W, C, alp = 0.5):
     This function aims to reimplement MDWSVM to do multiclass classification
 
     Input: 
-        X:      Data Matrix of interest (p by n) where n is the number of training samples and p is the number of features
+        X:      Data Matrix of interest (d by n) where n is the number of training samples and p is the number of features
         W:      vertices matrix for all classes
         C:      constraint hyperparameter on B which is the coefficient in f
         alp:    weighting parameter, the default value of 0.5
