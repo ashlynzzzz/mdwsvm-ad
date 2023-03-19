@@ -6,7 +6,7 @@ def mdwd(X, W, C):
     This function aims to reimplement MDWD to do multiclass classification
 
     Input: 
-        X:  Data Matrix of interest (p by n) where n is the number of training samples and p is the number of features
+        X:  Data Matrix of interest (d by n) where n is the number of training samples and p is the number of features
         W:  vertices matrix for all classes
         C:  constraint hyperparameter on B which is the coefficient in f
         
