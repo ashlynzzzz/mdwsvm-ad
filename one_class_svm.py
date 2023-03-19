@@ -6,7 +6,7 @@ def one_class_svm(X, v, K = lambda x, y: np.exp(-np.linalg.norm(x - y)**2/2)):
     This function aims to do one-class svm and label anomalous vectors as +1
 
     Input: 
-        X:  Data Matrix of interest (p by n) where n is the number of training samples and p is the number of features
+        X:  Data Matrix of interest (d by n) where n is the number of training samples and p is the number of features
         v:  hyperparameter within (0,1)
         K:  kernel, the default is a radius-based Gaussian kernel
 
