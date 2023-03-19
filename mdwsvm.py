@@ -16,7 +16,7 @@ def mdwsvm(X, W, alp = 0.5):
         f0: f0(x) = x * B + beta_d DWD decision boundary
         classifier: argmax_j <f(x), W_j> MDWSVM classifier for predicting future data
     '''
-    #TODO: minimize the dual problem
+    #TODO: minimization
     # input: X, W
     # intermediate: r, ita, xi
     # output: B, beta_0, beta_d
