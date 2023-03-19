@@ -3,6 +3,7 @@ from mdwsvm import mdwsvm
 from msvm import msvm
 from mdwd import mdwd
 from metric import within_class_error
+import matplotlib.pyplot as plt
 
 prob = [1/3, 1/2, 2/3] # varying probabilities for class 1
 dim = [10, 100, 500, 1000]
