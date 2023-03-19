@@ -7,7 +7,7 @@ def hybrid(X, v, W, C, alp = 0.5, K = lambda x, y: np.exp(-np.linalg.norm(x - y)
     This function aims to do hybrid version of MDWSVM and 1-class SVM for comparison
 
     Input: 
-        X:      Data Matrix of interest (p by n) where n is the number of training samples and p is the number of features
+        X:      Data Matrix of interest (d by n) where n is the number of training samples and p is the number of features
         for one_class_svm:
         v:      hyperparameter within (0,1)
         K:      kernel, the default is a radius-based Gaussian kernel
