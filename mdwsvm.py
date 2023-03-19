@@ -1,13 +1,14 @@
 import numpy as np
 import cvxpy as cp
 
-def mdwsvm(X, W, alp = 0.5):
+def mdwsvm(X, W, C, alp = 0.5):
     '''
     This function aims to reimplement MDWSVM to do multiclass classification
 
     Input: 
         X:      Data Matrix of interest (p by n) where n is the number of training samples and p is the number of features
         W:      vertices matrix for all classes
+        C:      constraint hyperparameter on B which is the coefficient in f
         alp:    weighting parameter, the default value of 0.5
         
     Output: 
@@ -17,7 +18,7 @@ def mdwsvm(X, W, alp = 0.5):
         classifier: argmax_j <f(x), W_j> MDWSVM classifier for predicting future data
     '''
     #TODO: minimization
-    # input: X, W
+    # input: X, W, C, alp
     # intermediate: r, ita, xi
     # output: B, beta_0, beta_d
 
