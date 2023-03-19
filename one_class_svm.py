@@ -17,11 +17,11 @@ def one_class_svm(X, v, K = lambda u, v: np.exp(-np.linalg.norm(u - v)**2/2)):
 
     n = X.shape[1]
     # TODO: minimize the dual problem
-
+    # solution: alpha
 
 
     # classification
-    rho = 0 #TODO
+    rho = 0 #TODO #given by alpha and K
     f = lambda K, alpha, rho: 0 #TODO
     y = 0 #TODO
     return y, f
