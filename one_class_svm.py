@@ -25,8 +25,11 @@ class one_class_svm():
         '''
         return alpha, rho
 
-    def test(self):
+    def test(data):
         '''
+        Input:
+        data:   data for evaluation
+        
         Output:
         y:      predicting labels for X
         '''
