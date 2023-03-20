@@ -6,8 +6,8 @@ class one_class_svm():
     This class aims to do one-class svm and label anomalous vectors as +1
 
     Variables: 
-        X:      training data matrix of interest (d by n) where n is the number of training samples and p is the number of features
-        y:      training labels
+        X:  training data matrix of interest (d by n) where n is the number of training samples and p is the number of features
+        y:  training labels
         v:  hyperparameter within (0,1)
         K:  kernel, the default is a radius-based Gaussian kernel
     '''
