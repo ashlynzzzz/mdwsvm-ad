@@ -18,7 +18,7 @@ def msvm(X, W, C):
     # input: X, W, C
     # intermediate: xi
     # output: B, beta
-
+#
     # classification
     f = lambda x: 0 #TODO
     y = f(X)
