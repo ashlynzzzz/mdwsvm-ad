@@ -35,7 +35,7 @@ class msvm:
         # Constraints
         constraints = [cp.diag((B.T @ X + beta).T @ W_y) + xi >= 1,
                        xi >= 0, 
-                       cp.sum(cp.diag(B.T @ B)) <= C]
+                       cp.sum([cp.power(cp.pnorm(B[:,i], p=2), 2) for i in range(k-1)]) <= C]
         prob = cp.Problem(objective, constraints)
         prob.solve()
 
