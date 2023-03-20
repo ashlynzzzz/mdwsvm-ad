@@ -1,39 +1,60 @@
 import numpy as np
 import cvxpy as cp
 
-class mdwsvm():
+class mdwsvm:
     '''
     This class aims to reimplement MDWSVM to do multiclass classification
 
     Variables: 
-        X:      training data matrix of interest (d by n) where n is the number of training samples and p is the number of features
-        y:      training labels
-        W:      vertices matrix for all classes
-        C:      constraint hyperparameter on B which is the coefficient in f
-        alp:    weighting parameter, the default value of 0.5
+            X:      training data matrix of interest (d by n) where n is the number of training samples and p is the number of features
+            y:      training labels
+            W:      vertices matrix for all classes
+            C:      constraint hyperparameter on B which is the coefficient in f
+            alp:    weighting parameter, the default value of 0.5
     '''
+
     def __init__(self, X, y, W, C, alp = 0.5):
         self.X = X
         self.y = y
         self.W = W
         self.C = C
         self.alpha = alp
-        self.B, self.beta = self.train()
+        self.B, self.beta = self.fit()
 
-    def train(self):
-        '''
-        Output:
-        B, beta:     for f(x) = B.T@x + beta
-        '''
-        # intermediate: r, ita, xi
-        return B, beta
+    def fit(self):
+        d, n = self.X.shape
+        k = len(np.unique(self.y))
+        W_y = self.W[:,self.y]
 
-    def test(data):
+        B = cp.Variable((d, k-1))
+        beta = cp.Variable((k-1, 1))
+        beta_0 = cp.Variable((k-1,1))
+        xi = cp.Variable(n)
+        r = cp.Variable(n)
+        eta = cp.Variable(n)
+
+        # Objective function
+        objective = cp.Minimize(cp.sum(self.alp * (cp.power(r, -1) + eta) + (1-self.alp) * xi))
+        # Constraints
+        constraints = [r == cp.diag((B.T @ self.X + beta_0).T @ W_y) + eta,
+                       r >= 0,
+                       eta >= 0,
+                       cp.diag((B.T @ self.X + beta).T @ W_y) + xi >= 1,
+                       xi >= 0, 
+                       cp.sum([cp.power(cp.pnorm(B[:,i], p=2), 2) for i in range(k-1)]) <= self.C]
+        prob = cp.Problem(objective, constraints)
+        prob.solve()
+
+        return B.value, beta.value        
+
+    def predict(self, data):
         '''
         Input:
-        data:   data for evaluation
+            data:  data matrix for prediction (d by n)
 
         Output:
-        y:      predicting labels for data
+            y:  predicted labels for data
         '''
+        f = self.B.T @ data + self.beta
+        y = np.argmax(self.W.T @ f, axis=0)
         return y
