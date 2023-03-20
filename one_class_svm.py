@@ -1,27 +1,33 @@
 import numpy as np
 import cvxpy as cp
 
-def one_class_svm(X, v, K = lambda x, y: np.exp(-np.linalg.norm(x - y)**2/2)):
+class one_class_svm():
     '''
-    This function aims to do one-class svm and label anomalous vectors as +1
+    This class aims to do one-class svm and label anomalous vectors as +1
 
-    Input: 
-        X:  Data Matrix of interest (d by n) where n is the number of training samples and p is the number of features
+    Variables: 
+        X:      training data matrix of interest (d by n) where n is the number of training samples and p is the number of features
+        y:      training labels
         v:  hyperparameter within (0,1)
         K:  kernel, the default is a radius-based Gaussian kernel
-
-    Output: 
-        y:  labels predicting anomalous or not for training data
-        f:  classifier to predict labels for future data
     '''
+    def __init__(self, X, y, v, K = lambda x, y: np.exp(-np.linalg.norm(x - y)**2/2)):
+        self.X = X
+        self.y = y
+        self.v = v
+        self.K = K
+        self.alpha, self.rho = self.train()
 
-    n = X.shape[1]
-    # TODO: minimize the dual problem
-    # solution: alpha
+    def train(self):
+        '''
+        Output:
+        alpha, rho:     for f(x) = B.T@x + beta
+        '''
+        return alpha, rho
 
-
-    # classification
-    rho = 0 #TODO #given by alpha and K
-    f = lambda x: 0 #TODO
-    y = 0 #TODO
-    return y, f
+    def test(self):
+        '''
+        Output:
+        y:      predicting labels for X
+        '''
+        return y
