@@ -1,25 +1,36 @@
 import numpy as np
 import cvxpy as cp
 
-def mdwd(X, W, C):
+class mdwd():
     '''
-    This function aims to reimplement MDWD to do multiclass classification
+    This class aims to reimplement MDWD to do multiclass classification
 
-    Input: 
-        X:  Data Matrix of interest (d by n) where n is the number of training samples and p is the number of features
+    Variables: 
+        X:  training data matrix of interest (d by n) where n is the number of training samples and p is the number of features
+        y:  training labels
         W:  vertices matrix for all classes
         C:  constraint hyperparameter on B which is the coefficient in f
-        
-    Output: 
-        y:  labels for training data
-        f:  argmax_j <f0(x), W_j> MSVM classifier for predicting future data where f0(x) = x * B + beta_d
     '''
-    #TODO: minimization
-    # input: X, W, C
-    # intermediate: r, ita
-    # output: B, beta_0
+    def __init__(self, X, y, W, C):
+        self.X = X
+        self.y = y
+        self.W = W
+        self.C = C
+        self.B, self.beta = self.train()
 
-    # classification
-    f0 = lambda x: 0 #TODO
-    y = f0(X)
-    return y, f0
+    def train(self):
+        '''
+        Output:
+        B, beta:    for f(x) = B.T@x + beta
+        '''
+        return B, beta
+
+    def test(data):
+        '''
+        Input:
+        data:   data for evaluation
+
+        Output:
+        y:      predicting labels for data
+        '''
+        return y
