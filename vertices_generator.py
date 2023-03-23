@@ -10,8 +10,7 @@ def vertices(k):
     Output:
     W:  matrix of vertices where each column is a vertex for one class
     '''
-    u = np.random.randn(k-1)
-    u = u / np.linalg.norm(u) # random unit vector
+    u = np.ones(k-1)
     W = np.zeros((k-1,k))
     for i in range(k):
         if i == 0:
