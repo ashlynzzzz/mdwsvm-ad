@@ -131,7 +131,7 @@ for i in range(3):
         
         # Use cross validation to choose C for MDWSVM based on X_train
         # Define values for cross_validation
-        c_values = [2**-3, 2**-2, 2**-1, 1, 2, 4, 8, 16, 32, 64, 2**7, 2**8, 2**9, 2**10, 2**11, 2**12]
+        c_values = [2**i for i in range(-3,13)]
         w = vertices(3)
         
         # MDWSVM
