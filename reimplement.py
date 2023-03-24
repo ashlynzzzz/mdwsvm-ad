@@ -56,17 +56,17 @@ for index in range(3):
         for i in range(10 * size1):
             # Class1
             X_test[:, i] = np.random.normal(u1, sigma, size = d)
-            y_test[i] = 1
+            y_test[i] = 0
         
         # Generate testing dataset class2 and class3
         for i in range(10 * size2):
             # Class2
             X_test[:, i + 10 * size1] = np.random.normal(u2, sigma, size = d)
-            y_test[i + 10 * size1] = 2
+            y_test[i + 10 * size1] = 1
             
             # Class3
             X_test[:, i + 10 * (size1 + size2)] = np.random.normal(u3, sigma, size = d)
-            y_test[i + 10 * (size1 + size2)] = 3
+            y_test[i + 10 * (size1 + size2)] = 2
 
         # Shuffle the data
         X_train, y_train = shuffle(X_train.T, y_train, random_state=42)
