@@ -23,22 +23,11 @@ for index in range(3):
     
     for j in range(5):
         d = dim[j]
-        
+         
         # Define the centers of the three groups on the unit ball
-        u = np.random.randn(d)
-        u = u / np.linalg.norm(u) # random unit vector
-        w = np.zeros((d,3))
-        for i in range(3):
-            if i == 0:
-                w[:,i] = (d)**(-1/2) * u
-            else:
-                e = np.zeros(d)
-                e[i-1] = 1
-                w[:,i] = -(1+np.sqrt(3))/(d)**(2/3) * u + np.sqrt(3/(d)) * e        
-        
-        u1 = w[:,0]
-        u2 = w[:,1]
-        u3 = w[:,2]
+        u1 = np.concatenate(([1], np.zeros(d-1)))
+        u2 = np.concatenate(([-1/2], [np.sqrt(3)/2], np.zeros(d-2)))
+        u3 = np.concatenate(([-1/2], [-np.sqrt(3)/2], np.zeros(d-2)))
         
         # Generate the dataset
         X_train = np.zeros((d, size))  # d-dim training dataset, each column is an obervation
@@ -91,7 +80,7 @@ for index in range(3):
         
         # MDWSVM
         err[j,0,index] = cross_validation(c_values, 5, size, w, X_train, X_test, y_test, y_train, mdwsvm)
-
+        print(err[j,0,index])
         # msvm
         err[j,1,index] = cross_validation(c_values, 5, size, w, X_train, X_test, y_test, y_train, msvm)
 
