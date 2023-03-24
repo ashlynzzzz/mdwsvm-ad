@@ -2,7 +2,7 @@ import numpy as np
 
 def vertices(k):
     '''
-    This function is to generate class vertices in R^{k-1}
+    This function is to generate k-class vertices in R^{k-1}
     
     Input:
     k:  number of classes
@@ -18,5 +18,5 @@ def vertices(k):
         else:
             e = np.zeros(k-1)
             e[i-1] = 1
-            W[:,i] = -(1+np.sqrt(k))/(k-1)**(2/3) * u + np.sqrt(k/(k-1)) * e
+            W[:,i] = -(1+np.sqrt(k))/(k-1)**(3/2) * u + np.sqrt(k/(k-1)) * e
     return W
