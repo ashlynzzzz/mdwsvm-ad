@@ -14,16 +14,16 @@ class one_class_svm():
         self.X = X
         self.v = v
         self.K = K
-        self.alpha, self.rho = self.train()
+        self.alpha, self.rho = self.fit()
 
-    def train(self):
+    def fit(self):
         '''
         Output:
         alpha, rho:     for f(x) = B.T@x + beta
         '''
         return alpha, rho
 
-    def test(self):
+    def predict(self):
         '''
         Input:
         data:   data for evaluation
