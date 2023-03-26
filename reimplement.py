@@ -90,22 +90,28 @@ for index in range(3):
 
 # Plot
 
-fig, axs = plt.subplots(nrows=3, ncols=1)
+fig, axs = plt.subplots(nrows=1, ncols=3, sharey=True, figsize=(8, 3))
+fig.text(0.53, 0, 'Dimension', ha='center')
 
+axs[0].set_ylabel('Error')
 axs[0].set_title('p = 1/3')
-axs[0].plot(dim, err[:,0,0], color = 'black', linestyle = '-')
-axs[0].plot(dim, err[:,1,0], color = 'red', linestyle = '--')
-axs[0].plot(dim, err[:,2,0], color = 'blue', linestyle = '-.')
+axs[0].plot(dim, err[:,0,0], color = 'black', linestyle = '-', label = 'MDWSVM')
+axs[0].plot(dim, err[:,1,0], color = 'red', linestyle = '--', label = 'MSVM')
+axs[0].plot(dim, err[:,2,0], color = 'blue', linestyle = ':', label = 'MDWD')
 
 axs[1].set_title('p = 1/2')
-axs[1].plot(dim, err[:,0,1], color = 'black', linestyle = '-')
-axs[1].plot(dim, err[:,1,1], color = 'red', linestyle = '--')
-axs[1].plot(dim, err[:,2,1], color = 'blue', linestyle = '-.')
+axs[1].plot(dim, err[:,0,1], color = 'black', linestyle = '-', label = 'MDWSVM')
+axs[1].plot(dim, err[:,1,1], color = 'red', linestyle = '--', label = 'MSVM')
+axs[1].plot(dim, err[:,2,1], color = 'blue', linestyle = ':', label = 'MDWD')
 
 axs[2].set_title('p = 2/3')
-axs[2].plot(dim, err[:,0,2], color = 'black', linestyle = '-')
-axs[2].plot(dim, err[:,1,2], color = 'red', linestyle = '--')
-axs[2].plot(dim, err[:,2,2], color = 'blue', linestyle = '-.')
+axs[2].plot(dim, err[:,0,2], color = 'black', linestyle = '-', label = 'MDWSVM')
+axs[2].plot(dim, err[:,1,2], color = 'red', linestyle = '--', label = 'MSVM')
+axs[2].plot(dim, err[:,2,2], color = 'blue', linestyle = ':', label = 'MDWD')
+
+# Create a single legend outside of the subplots
+handles, labels = axs[0].get_legend_handles_labels()
+fig.legend(handles, labels, loc='upper left', bbox_to_anchor=(1.0, 0.7))
 
 plt.tight_layout()
 plt.show()
