@@ -37,7 +37,7 @@ class mdwd:
                        eta >= 0,
                        cp.sum([cp.power(cp.pnorm(B[:,i], p=2), 2) for i in range(k-1)]) <= self.C]
         prob = cp.Problem(objective, constraints)
-        prob.solve(solver=cp.ECOS)
+        prob.solve(solver=cp.SCS)
         # prob.solve()
 
         return B.value, beta.value       
