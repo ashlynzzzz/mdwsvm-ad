@@ -38,7 +38,7 @@ class one_class_svm():
         prob = cp.Problem(objective, constraints)
         prob.solve(solver=cp.SCS)
 
-        index = np.where((alpha.value != 0) & (alpha.value != (1/(self.v*n))))[0][0]
+        index = np.argmax((alpha.value != 0) & (alpha.value != (1/(self.v*n))))
         x = self.X[:,index]
         rho = np.sum(np.array([alpha.value[j] * self.K(self.X[:,j], x) for j in range(n)]))
 
