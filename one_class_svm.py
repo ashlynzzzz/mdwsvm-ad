@@ -51,6 +51,7 @@ class one_class_svm():
 
         Output:
         y:      predicting labels for data
+        Note:   -1 for anomalies
         '''
         # Compute the train-test kernal matrix
         _, n = self.X.shape
