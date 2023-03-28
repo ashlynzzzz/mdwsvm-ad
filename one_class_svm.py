@@ -19,10 +19,10 @@ class one_class_svm():
     def fit(self):
         '''
         Output:
-        alpha, rho:     for f(x) = B.T@x + beta
+        alpha, rho
         '''
         d, n = self.X.shape
-        # Calculate the Gram matrix.
+        # Calculate the train-train kernel matrix.
         G = np.zeros((n, n))
         for i in range(n):
             for j in range(n):
@@ -53,7 +53,7 @@ class one_class_svm():
         y:      predicting labels for data
         Note:   -1 for anomalies
         '''
-        # Compute the train-test kernal matrix
+        # Compute the train-test kernel matrix
         _, n = self.X.shape
         _, m = data.shape
         G = np.zeros((n, m))
