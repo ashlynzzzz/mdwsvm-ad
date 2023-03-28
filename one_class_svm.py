@@ -21,7 +21,7 @@ class one_class_svm():
         Output:
         alpha, rho
         '''
-        d, n = self.X.shape
+        _, n = self.X.shape
         # Calculate the train-train kernel matrix.
         G = np.zeros((n, n))
         for i in range(n):
