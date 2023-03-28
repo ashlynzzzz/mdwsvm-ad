@@ -18,6 +18,7 @@ def cross_validation(c_values, num_folds, size, w, X_train, X_test, y_test, y_tr
 
     Output:
     error:  the error for the best c estimator using testing data
+    c_best: the best c for this method on this dimention
     '''
     
     folder_size = int(size / num_folds)
@@ -57,4 +58,4 @@ def cross_validation(c_values, num_folds, size, w, X_train, X_test, y_test, y_tr
     error = within_class_error(y_ture = y_test, y_pred = pred_y)   # store the value for error
     
     
-    return error
+    return error, best_c
