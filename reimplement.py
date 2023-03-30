@@ -11,14 +11,32 @@ from cross_validation import cross_validation
 
 prob = [1/3, 1/2, 2/3] # varying probabilities for class 1
 dim = [2, 10, 100, 500, 1000]
-err = np.zeros((100,5,3,3)) # error value  100 times, 5-dim, 3 methods, 3 prob
-best_c = np.zeros((100,5,3,3)) # best c value
-c_list = [None, None, None, 2**1, 2**0]
+err = np.zeros((10,5,3,3)) # error value  100 times, 5-dim, 3 methods, 3 prob
+best_c = np.zeros((10,5,3,3)) # best c value
+c_list = np.array([[[1.000e+00, 6.400e+01, 4.000e+00],
+            [1.000e+00, 4.000e+00, 5.120e+02],
+            [2.000e+00, 2.560e+02, 6.400e+01]],
+
+            [[1.000e+00, 4.000e+00, 8.000e+00],
+            [1.000e+00, 4.000e+00, 4.000e+00],
+            [2.000e+00, 6.400e+01, 6.400e+01]],
+
+            [[5.000e-01, 3.200e+01, 1.024e+03],
+            [5.000e-01, 6.400e+01, 6.400e+01],
+            [2.000e+00, 4.000e+00, 8.000e+00]],
+            
+            [[5.000e-01, 1.600e+01, 3.200e+01],
+            [5.000e-01, 3.200e+01, 3.200e+01],
+            [1.000e+00, 2.000e+00, 2.000e+00]],
+            
+            [[2.000e+00, 8.000e+00, 1.280e+02],
+            [3.200e+01, 3.200e+01, 6.400e+01],
+            [1.000e+00, 2.000e+00, 1.250e-01]]])  # best c calcualted form 1.ipynb
 
 
-for time_i in range(100):
+for time_i in range(10):
     np.random.seed(time_i)  # set random seed
-    
+    print(time_i)
     for prob_i in range(3):
         p1 = prob[prob_i]    # prob of class 1
         p2 = (1 - p1) / 2   # prob of class 2,3
@@ -83,19 +101,17 @@ for time_i in range(100):
             c_values = [2**i for i in range(-3,13)]
             w = vertices(3)
             
-            # Do not use cross validation for high dimension
-            if dim_i > 2:
+            if dim_i > 2:   # Do not use cross validation for dimension > 100
                 # MDWSVM
-                c = c_list[dim_i]
-                method = mdwsvm(X_train, y_train, w, c)
+                method = mdwsvm(X_train, y_train, w, c_list[dim_i,0,prob_i])
                 pred_y = method.predict(X_test)
                 err[time_i,dim_i,0,prob_i] = within_class_error(y_ture = y_test, y_pred = pred_y)
                 # MSVM
-                method = msvm(X_train, y_train, w, c)
+                method = msvm(X_train, y_train, w, c_list[dim_i,1,prob_i])
                 pred_y = method.predict(X_test)
                 err[time_i,dim_i,1,prob_i] = within_class_error(y_ture = y_test, y_pred = pred_y)
                 # MDWD
-                method = mdwd(X_train, y_train, w, c)
+                method = mdwd(X_train, y_train, w, c_list[dim_i,2,prob_i])
                 pred_y = method.predict(X_test)
                 err[time_i,dim_i,2,prob_i] = within_class_error(y_ture = y_test, y_pred = pred_y)
             else:
