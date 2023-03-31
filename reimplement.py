@@ -96,7 +96,7 @@ for time_i in range(10):
             X_train = X_train.T
             
             
-            # Use cross validation to choose C for MDWSVM based on X_train
+            # Use cross validation to choose C based on X_train
             # Define values for cross_validation
             c_values = [2**i for i in range(-3,13)]
             w = vertices(3)
@@ -117,7 +117,8 @@ for time_i in range(10):
             else:
                 # MDWSVM
                 err[time_i,dim_i,0,prob_i], best_c[time_i,dim_i,0,prob_i] = cross_validation(c_values, 5, size, w, X_train, X_test, y_test, y_train, mdwsvm)
-                
+                if(dim_i == 2):
+                    print(best_c[time_i,dim_i,0,prob_i])
                 # MSVM
                 err[time_i,dim_i,1,prob_i], best_c[time_i,dim_i,1,prob_i] = cross_validation(c_values, 5, size, w, X_train, X_test, y_test, y_train, msvm)
 
