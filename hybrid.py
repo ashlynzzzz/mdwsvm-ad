@@ -2,7 +2,8 @@ import numpy as np
 from mdwsvm import mdwsvm
 from one_class_svm import one_class_svm
 
-def hybrid(X_train, y_train, X_test, v, W, C, alp = 0.5, K = lambda x, y: np.exp(-np.linalg.norm(x - y)**2/2)):
+# def hybrid(X_train, y_train, X_test, v, W, C, alp = 0.5, K = lambda x, y: np.exp(-np.linalg.norm(x - y)**2/2)):
+def hybrid(X_train, y_train, X_test, v, W, C, K, alp = 0.5):
     '''
     This function aims to do hybrid version of MDWSVM and 1-class SVM for comparison
 
@@ -15,7 +16,7 @@ def hybrid(X_train, y_train, X_test, v, W, C, alp = 0.5, K = lambda x, y: np.exp
         v:      hyperparameter within (0,1)
         K:      kernel, the default is a radius-based Gaussian kernel
 
-        for mdwsvm:
+        for mdwsvm:  
         W:      vertices matrix for all classes: (K-1) by K
         C:      constraint hyperparameter on B which is the coefficient in f
         alp:    weighting parameter, the default value of 0.5
