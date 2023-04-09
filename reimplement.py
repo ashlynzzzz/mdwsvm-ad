@@ -34,8 +34,8 @@ c_list = np.array([[[1.000e+00, 6.400e+01, 4.000e+00],
             [1.000e+00, 2.000e+00, 1.250e-01]]])  # best c calcualted form 1.ipynb
 
 
-for time_i in range(10):
-    np.random.seed(time_i)  # set random seed
+for time_i in range(0, 10):
+    np.random.seed(417 + 100 * time_i)  # set random seed
     print(time_i)
     for prob_i in range(3):
         p1 = prob[prob_i]    # prob of class 1
@@ -92,7 +92,7 @@ for time_i in range(10):
                 y_test[i + 10 * (size1 + size2)] = 2
 
             # Shuffle the data
-            X_train, y_train = shuffle(X_train.T, y_train, random_state = time_i)
+            X_train, y_train = shuffle(X_train.T, y_train, random_state = 417 + 100 * time_i)
             X_train = X_train.T
             
             
