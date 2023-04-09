@@ -12,10 +12,10 @@ class mdwsvm_ad:
             C:      constraint hyperparameter on B which is the coefficient in f
             alp:    weighting parameter, the default value of 0.5
             v:      hyperparameter within (0,1)
-            K:      kernel, the default is a radius-based Gaussian kernel
+            K:      kernel function defined in matrix form, the default is a radius-based Gaussian kernel
     '''
 
-    def __init__(self, X, y, W, C, v, alp = 0.5, K = lambda x, y: np.exp(-np.linalg.norm(x - y)**2/2)):
+    def __init__(self, X, y, W, C, v, K, alp = 0.5):
         self.X = X
         self.y = y
         self.W = W
@@ -33,26 +33,25 @@ class mdwsvm_ad:
         _, counts = np.unique(self.y, return_counts=True)
         N_y = counts[self.y]
         # Calculate the train-train kernel matrix.
-        G = np.zeros((n, n))
-        for i in range(n):
-            for j in range(n):
-                G[i,j] = self.K(self.X[:,i], self.X[:,j])
+        G = self.K(self.X, self.X)
 
         d = cp.Variable(n)
         e = cp.Variable(n)
         f = cp.Variable(n)
 
         objective = cp.Minimize(0.5 * cp.sum([cp.quad_form(cp.multiply((d+e), W_y[j]), G) for j in range(k)])
-                                -2 * cp.sum(self.C*self.alp*(d-f) / (self.v*N_y)))
+                                -2 * cp.sum(cp.sqrt(self.C*self.alp*(d-f) / (self.v*N_y))))
+        
         constraints = [W_y @ d == 0,
                        W_y @ e == 0,
                        cp.sum(e) == self.C,
-                       d - f > 0,
+                       # d - f > 0,
+                       d - f >= 1e-16, 
                        e >= 0,
                        f >= 0]
         
         prob = cp.Problem(objective, constraints)
-        prob.solve(solver=cp.SCS)
+        prob.solve(solver=cp.SCS, verbose=1)
 
         return d.value, e.value        
 
@@ -66,12 +65,7 @@ class mdwsvm_ad:
         '''
         # TODO
         # Compute the train-test kernel matrix
-        _, n = self.X.shape
-        _, m = data.shape
-        G = np.zeros((n, m))
-        for i in range(n):
-            for j in range(m):
-                G[i,j] = self.K(self.X[:,i], data[:,j])
+        G = self.K(self.X, data)
 
         g = self.d + self.e
         W = self.W
