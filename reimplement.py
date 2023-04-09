@@ -11,8 +11,8 @@ from cross_validation import cross_validation
 
 prob = [1/3, 1/2, 2/3] # varying probabilities for class 1
 dim = [2, 10, 100, 500, 1000]
-err = np.zeros((10,5,3,3)) # error value  100 times, 5-dim, 3 methods, 3 prob
-best_c = np.zeros((10,5,3,3)) # best c value
+err = np.zeros((100,5,3,3)) # error value  100 times, 5-dim, 3 methods, 3 prob
+best_c = np.zeros((100,5,3,3)) # best c value
 c_list = np.array([[[1.000e+00, 6.400e+01, 4.000e+00],
             [1.000e+00, 4.000e+00, 5.120e+02],
             [2.000e+00, 2.560e+02, 6.400e+01]],
@@ -34,7 +34,7 @@ c_list = np.array([[[1.000e+00, 6.400e+01, 4.000e+00],
             [1.000e+00, 2.000e+00, 1.250e-01]]])  # best c calcualted form 1.ipynb
 
 
-for time_i in range(0, 10):
+for time_i in range(0, 100):
     np.random.seed(417 + 100 * time_i)  # set random seed
     print(time_i)
     for prob_i in range(3):
@@ -117,8 +117,7 @@ for time_i in range(0, 10):
             else:
                 # MDWSVM
                 err[time_i,dim_i,0,prob_i], best_c[time_i,dim_i,0,prob_i] = cross_validation(c_values, 5, size, w, X_train, X_test, y_test, y_train, mdwsvm)
-                if(dim_i == 2):
-                    print(best_c[time_i,dim_i,0,prob_i])
+                
                 # MSVM
                 err[time_i,dim_i,1,prob_i], best_c[time_i,dim_i,1,prob_i] = cross_validation(c_values, 5, size, w, X_train, X_test, y_test, y_train, msvm)
 
