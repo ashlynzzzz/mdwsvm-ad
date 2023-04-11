@@ -116,6 +116,7 @@ err_ad_best = within_class_error(y_ture = y_test, y_pred = pred_y)   # store the
 # Plot
 fig, axs = plt.subplots(nrows=1, ncols=3, sharey=True, figsize=(8, 3))
 
+axs[0].set_ylim([0, 1])
 axs[0].set_ylabel('Error')
 axs[0].set_title('c')
 for i in range(6):
