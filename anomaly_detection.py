@@ -8,27 +8,40 @@ from mdwsvm_ad import mdwsvm_ad
 from mdwsvm import mdwsvm
 from cross_validation import cross_validation
 
-err_ad = np.zeros(504) # error value  468 error, 14 c value, 6 v value, 6 sigma value
+err_ad = np.zeros((6,14,6)) # error value 6 sigma value, 14 c value, 6 v value
 
 # Load data
 digits_images, digits_labels = extract_training_samples('digits')
-letters_images, letters_labels = extract_training_samples('letters')
+letters_images, letters_labels = extract_training_samples('byclass')
 
 X_train = np.zeros((4000,28,28))
 y_train = np.zeros((4000), dtype=int)
 X_test = np.zeros((40000,28,28))
 y_test = np.zeros((40000), dtype=int)
 
-# 0-9 are 0-9, 10-35 are a-z
+# 4000 digits normalized training data 
 X_train[0:4000,:,:] = digits_images[0:4000,:,:] / 255
-X_train = X_train.reshape(4000,784).T  # 4000 digits normalized training data 
+X_train = X_train.reshape(4000,784).T 
 y_train[0:4000] = digits_labels[0:4000] # 4000 digits training label
 
-X_test[0:40000,:,:] = letters_images[0:40000,:,:] / 255
+# Get 2000 digits for test X
 X_test[0:2000,:,:] = digits_images[4000:6000,:,:] / 255
-X_test = X_test.reshape(40000,784).T   # 2000 digits and 38000 letters normalized data
-y_test[0:40000] = letters_labels[0:40000] + 9
-y_test[0:2000] = digits_labels[4000:6000]   # 2000 digits and 38000 letters label
+y_test[0:2000] = digits_labels[4000:6000]
+# Get 38000 lowercase letters
+count = 2000
+current_i = 0
+while True:
+    if count == 40000:
+        break
+    
+    if(letters_labels[current_i] >= 36): # Get lower case letter
+        X_test[count,:,:] = letters_images[current_i,:,:] / 255
+        y_test[count] = letters_labels[current_i]
+        count += 1
+        
+    current_i += 1
+# 2000 digits and 38000 letters normalized data, 0-9 are 0-9, 36-61 are a-z
+X_test = X_test.reshape(40000,784).T
 
 # Use cross validation to choose C based on X_train
 # Define values for cross_validation
@@ -50,12 +63,15 @@ best_c = 0
 best_v = 0
 best_sig = 0
 best_score = -1
-count = 0
+isig = 0
+ic = 0
+iv = 0
 
 for sig in sig_values:
     k = lambda x, y: np.exp(-np.linalg.norm(x - y)**2)/(2 * sig**2)
-    
+    ic = 0
     for c in c_values:
+        iv = 0
         for v in v_values:
             scores = np.zeros(5)
             # Perform cross-validation and calculate the average score
@@ -82,8 +98,11 @@ for sig in sig_values:
                 best_score = avg_score
             
             # Record the current error and all the parameter values
-            err_ad[count] = [1-avg_score, c, v, sig]
-            count = count + 1
+            err_ad[isig, ic, iv] = 1 - avg_score
+            iv += 1
+        ic += 1
+    isig += 1
+
             
 # use the optimal C to train X_train and get the final classifier
 k = lambda x, y: np.exp(-np.linalg.norm(x - y)**2)/(2 * best_sig**2)
@@ -99,16 +118,19 @@ fig, axs = plt.subplots(nrows=1, ncols=3, sharey=True, figsize=(8, 3))
 
 axs[0].set_ylabel('Error')
 axs[0].set_title('c')
-for i in range(36):
-    axs[0].plot(err_ad[14*i:14*(i+1)][1], err_ad[14*i:14*(i+1)][0], color = 'black', linestyle = '-', label = 'c')
+for i in range(6):
+    for j in range(6):
+        axs[0].plot(c_values, err_ad[i, :, j], color = 'black', linestyle = '-', label = 'c')
 
 axs[1].set_title('v')
-for i in range(84):
-    axs[1].plot(err_ad[6*i:6*(i+1)][2], err_ad[6*i:6*(i+1)][0], color = 'black', linestyle = '-', label = 'v')
+for i in range(14):
+    for j in range(6):
+        axs[1].plot(v_values, err_ad[j, i, :], color = 'black', linestyle = '-', label = 'v')
 
 axs[2].set_title('sig')
-for i in range(84):
-    axs[2].plot(err_ad[6*i:6*(i+1)][3], err_ad[6*i:6*(i+1)][0], color = 'black', linestyle = '-', label = 'sig')
+for i in range(14):
+    for j in range(6):
+        axs[2].plot(sig_values, err_ad[:, i, j], color = 'black', linestyle = '-', label = 'sig')
 
 plt.tight_layout()
 plt.show()
