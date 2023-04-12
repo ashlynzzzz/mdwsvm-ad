@@ -27,7 +27,7 @@ def cross_validation(c_values, num_folds, size, w, X_train, X_test, y_test, y_tr
     best_score = -1
     
     for c in c_values:
-        scores = np.zeros(5)
+        scores = np.zeros(num_folds)
         
         # Perform cross-validation and calculate the average score
         for i in range(num_folds):
@@ -41,7 +41,7 @@ def cross_validation(c_values, num_folds, size, w, X_train, X_test, y_test, y_tr
             method = method_obj(trainx, trainy, w, c)
             
             pred_y = method.predict(testx)
-            score = 1 - within_class_error(y_ture = testy, y_pred = pred_y)
+            score = 1 - within_class_error(testy, pred_y)
             scores[i] = score
             
         # Check if the current value of c is the best so far
@@ -55,7 +55,7 @@ def cross_validation(c_values, num_folds, size, w, X_train, X_test, y_test, y_tr
     
     # perform the final classifier on X_test
     pred_y = method_666.predict(X_test)
-    error = within_class_error(y_ture = y_test, y_pred = pred_y)   # store the value for error
+    error = within_class_error(y_test, pred_y)   # store the value for error
     
     
     return error, best_c
