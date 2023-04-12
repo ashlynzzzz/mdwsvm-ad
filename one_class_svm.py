@@ -28,13 +28,13 @@ class one_class_svm():
 
         objective = cp.Minimize(0.5 * cp.quad_form(alpha, self.G))
 
-        constraints = [alpha >= 0,
-                       alpha <= 1 / (self.v*n),
-                       cp.sum(alpha) == 1]
+        constraints = [alpha <= 0,
+                       alpha >= -1 / (self.v*n),
+                       cp.sum(alpha) == -1]
         prob = cp.Problem(objective, constraints)
         prob.solve(solver=cp.SCS)
 
-        index = np.argmax((alpha.value != 0) & (alpha.value != (1/(self.v*n))))
+        index = np.argmax((alpha.value != 0) & (alpha.value != (-1/(self.v*n))))
         x = self.X[:,index].reshape(-1,1)
         rho = np.dot(alpha.value, self.K(self.X, x)).item()
 
@@ -46,6 +46,6 @@ class one_class_svm():
         y:      predicting labels for data
         Note:   -1 for anomalies
         '''
-        y = np.sign(self.G.T @ self.alpha - self.rho)
+        y = - np.sign(self.G.T @ self.alpha - self.rho)
 
         return y.flatten()
