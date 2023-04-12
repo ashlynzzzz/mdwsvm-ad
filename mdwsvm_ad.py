@@ -15,11 +15,10 @@ class mdwsvm_ad:
             K:      kernel function defined in matrix form, the default is a radius-based Gaussian kernel
     '''
 
-    def __init__(self, X, y, W, U, C, v, K, alp = 0.5):
+    def __init__(self, X, y, W, C, v, K, alp = 0.5):
         self.X = X
         self.y = y
         self.W = W
-        self.U = U
         self.C = C
         self.alp = alp
         self.v = v
