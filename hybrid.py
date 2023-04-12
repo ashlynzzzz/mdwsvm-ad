@@ -25,7 +25,7 @@ def hybrid(X_train, y_train, X_test, v, W, C, K, alp = 0.5):
         y_train:    labels for training data
         y_test:     labels for test data
     '''
-    #TODO: training
+    
     #Initialize y_test
     y_test = np.zeros(X_test.shape[1], dtype=int)
     #first use 1-class svm to find anomalous data
