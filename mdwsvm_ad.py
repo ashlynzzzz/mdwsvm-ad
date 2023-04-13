@@ -50,7 +50,7 @@ class mdwsvm_ad:
                        f >= 0]
         
         prob = cp.Problem(objective, constraints)
-        prob.solve(solver=cp.SCS, verbose=True)
+        prob.solve(solver=cp.SCS)
 
         return d.value, e.value        
 
