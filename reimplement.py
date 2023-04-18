@@ -104,15 +104,15 @@ for time_i in range(0, 100):
                 # MDWSVM
                 method = mdwsvm(X_train, y_train, w, c_list[dim_i,0,prob_i])
                 pred_y = method.predict(X_test)
-                err[time_i,dim_i,0,prob_i] = within_class_error(y_ture = y_test, y_pred = pred_y)
+                err[time_i,dim_i,0,prob_i] = within_class_error(y_test, pred_y)
                 # MSVM
                 method = msvm(X_train, y_train, w, c_list[dim_i,1,prob_i])
                 pred_y = method.predict(X_test)
-                err[time_i,dim_i,1,prob_i] = within_class_error(y_ture = y_test, y_pred = pred_y)
+                err[time_i,dim_i,1,prob_i] = within_class_error(y_test, pred_y)
                 # MDWD
                 method = mdwd(X_train, y_train, w, c_list[dim_i,2,prob_i])
                 pred_y = method.predict(X_test)
-                err[time_i,dim_i,2,prob_i] = within_class_error(y_ture = y_test, y_pred = pred_y)
+                err[time_i,dim_i,2,prob_i] = within_class_error(y_test, pred_y)
             else:
                 # MDWSVM
                 err[time_i,dim_i,0,prob_i], best_c[time_i,dim_i,0,prob_i] = cross_validation(c_values, 5, size, w, X_train, X_test, y_test, y_train, mdwsvm)
