@@ -156,7 +156,6 @@ result_1 = pd.crosstab(y_test, y_pred_1, rownames=['True label'], colnames=['Pre
 result_1.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
 result_1 = result_1.div(result_1.sum(axis=1), axis=0)
 result_1.applymap(lambda x: '{:.2%}'.format(x))
-result_1.to_excel(writer, sheet='MDWSVM')
 
 # Hybrid Method
 v_values = [0.1, 0.3, 0.5, 0.7, 0.9]
@@ -197,7 +196,6 @@ result_2 = pd.crosstab(y_test, y_pred_2, rownames=['True label'], colnames=['Pre
 result_2.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
 result_2 = result_2.div(result_2.sum(axis=1), axis=0)
 result_2.applymap(lambda x: '{:.2%}'.format(x))
-result_2.to_excel(writer, sheet='Hybrid')
 
 # MDWSVM-AD Method
 v_values = [0.1, 0.3, 0.5, 0.7, 0.9]
@@ -245,4 +243,9 @@ result_3 = pd.crosstab(y_test, y_pred_3, rownames=['True label'], colnames=['Pre
 result_3.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
 result_3 = result_3.div(result_3.sum(axis=1), axis=0)
 result_3.applymap(lambda x: '{:.2%}'.format(x))
-result_3.to_excel(writer, sheet='MDWSVM-AD')
+
+# Output result to excel
+with pd.ExcelWriter('result.xlsx') as writer:
+    result_1.to_excel(writer, sheet_name='MDWSVM')
+    result_2.to_excel(writer, sheet_name='Hybrid')
+    result_3.to_excel(writer, sheet_name='MDWSVM-AD')
