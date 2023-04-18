@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from emnist import extract_training_samples
 from sklearn.utils import shuffle
@@ -149,10 +150,16 @@ model1 = mdwsvm(X_train, y_train, w1, best_c)
 y_pred_1 = model1.predict(X_test)
 print('MDWSVM error is', within_class_error(y_test, y_pred_1))
 
+# Show result
+result_1 = pd.crosstab(y_test, y_pred_1, rownames=['True label'], colnames=['Predicted label'])
+result_1.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
+result_1 = result_1.div(result_1.sum(axis=1), axis=0)
+result_1.applymap(lambda x: '{:.2%}'.format(x))
+print(result_1)
 
 # Hybrid Method
 v_values = [0.1, 0.3, 0.5, 0.7, 0.9]
-sigma2_values = [0.001, 0.01, 0.05, 0.1, 0.3, 0.6, 1, 1.5]
+sigma2_values = [0.001, 0.01, 0.09, 0.1, 0.11, 1, 1.5]
 
 best_c = 1
 best_v = 0
@@ -183,6 +190,13 @@ best_k = partial(Gaussian_kernel, sigma2=best_sigma2)
 y_pred_2 = hybrid(X_train, y_train, X_test, best_v, w1, best_c, best_k)
 print('Hybrid error is', within_class_error(y_test_true_hybrid, y_pred_2))
 
+# Show result
+true_label_2 = [0, 1, 2, 3, 'u', 'v', 'w', 'x', 'y', 'z']
+result_2 = pd.crosstab(y_test, y_pred_2, rownames=['True label'], colnames=['Predicted label'])
+result_2.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
+result_2 = result_2.div(result_2.sum(axis=1), axis=0)
+result_2.applymap(lambda x: '{:.2%}'.format(x))
+print(result_2)
 
 # MDWSVM-AD Method
 v_values = [0.1, 0.3, 0.5, 0.7, 0.9]
@@ -223,3 +237,11 @@ best_k_2 = partial(Gaussian_kernel, sigma2=best_sigma2_2)
 model3 = mdwsvm_ad(X_train, y_train, w2, best_c_2, best_v_2, best_k_2)
 y_pred_3 = model3.predict(X_test)
 print('MDWSVM-AD error is', within_class_error(y_test_true_mdwsvm_ad, y_pred_3))
+
+# Show result
+true_label_3 = [0, 1, 2, 3, 'u', 'v', 'w', 'x', 'y', 'z']
+result_3 = pd.crosstab(y_test, y_pred_3, rownames=['True label'], colnames=['Predicted label'])
+result_3.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
+result_3 = result_3.div(result_3.sum(axis=1), axis=0)
+result_3.applymap(lambda x: '{:.2%}'.format(x))
+print(result_3)
