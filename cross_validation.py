@@ -3,7 +3,7 @@ from metric import within_class_error
 
 def cross_validation(c_values, num_folds, size, w, X_train, X_test, y_test, y_train, method_obj):
     '''
-    This function is to generate the best c value
+    This function is to generate the best c value for reimplementing MDWSVM
     
     Input:
     c_values: list of c_values
