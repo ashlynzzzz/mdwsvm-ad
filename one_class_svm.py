@@ -44,7 +44,9 @@ class one_class_svm():
         '''
         Output:
         y:      predicting labels for data
-        Note:   -1 for anomalies
+        Note:   -1 for anomalies; The result of y is +1 using the optimization program in the 'fit' function. 
+                But here we flip the sign again. Because we are going to classify normal data further in hybrid method,
+                and normal data have label +1 already.
         '''
         y = - np.sign(self.G.T @ self.alpha - self.rho)
 
