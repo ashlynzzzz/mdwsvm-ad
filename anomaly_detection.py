@@ -109,7 +109,6 @@ X_test = X_test.reshape(8000,784).T
 # y_test_true_hybrid: -1,0,1,2,3
 # y_test_true_mdwsvm_ad: 0,1,2,3,4
 
-writer = pd.ExcelWriter('result.xlsx')
 # Cross Validation for MDWSVM
 c_values = [2**i for i in range(-3,13)]
 w1 = vertices(4)
@@ -156,6 +155,7 @@ result_1 = pd.crosstab(y_test, y_pred_1, rownames=['True label'], colnames=['Pre
 result_1.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
 result_1 = result_1.div(result_1.sum(axis=1), axis=0)
 result_1.applymap(lambda x: '{:.2%}'.format(x))
+print(result_1)
 
 # Hybrid Method
 v_values = [0.1, 0.3, 0.5, 0.7, 0.9]
@@ -191,15 +191,15 @@ y_pred_2 = hybrid(X_train, y_train, X_test, best_v, w1, best_c, best_k)
 print('Hybrid error is', within_class_error(y_test_true_hybrid, y_pred_2))
 
 # Show result
-true_label_2 = [0, 1, 2, 3, 'u', 'v', 'w', 'x', 'y', 'z']
 result_2 = pd.crosstab(y_test, y_pred_2, rownames=['True label'], colnames=['Predicted label'])
 result_2.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
 result_2 = result_2.div(result_2.sum(axis=1), axis=0)
 result_2.applymap(lambda x: '{:.2%}'.format(x))
+print(result_2)
 
 # MDWSVM-AD Method
 v_values = [0.1, 0.3, 0.5, 0.7, 0.9]
-sigma2_values = [10, 12, 14, 16, 18, 55]
+sigma2_values = [10, 12, 14, 16, 18]
 C_values = [1,5,8,9,10,11]
 w2 = vertices(5)
 
@@ -238,14 +238,13 @@ y_pred_3 = model3.predict(X_test)
 print('MDWSVM-AD error is', within_class_error(y_test_true_mdwsvm_ad, y_pred_3))
 
 # Show result
-true_label_3 = [0, 1, 2, 3, 'u', 'v', 'w', 'x', 'y', 'z']
 result_3 = pd.crosstab(y_test, y_pred_3, rownames=['True label'], colnames=['Predicted label'])
 result_3.rename(index={56:'u', 57:'v', 58:'w', 59:'x', 60:'y', 61:'z'}, inplace=True)
 result_3 = result_3.div(result_3.sum(axis=1), axis=0)
 result_3.applymap(lambda x: '{:.2%}'.format(x))
+print(result_3)
 
-# Output result to excel
-with pd.ExcelWriter('result.xlsx') as writer:
-    result_1.to_excel(writer, sheet_name='MDWSVM')
-    result_2.to_excel(writer, sheet_name='Hybrid')
-    result_3.to_excel(writer, sheet_name='MDWSVM-AD')
+with pd.ExcelWriter('tables.xlsx') as writer: 
+    result_1.to_excel(writer, sheet_name='mdwsvm') 
+    result_2.to_excel(writer, sheet_name='hybrid')
+    result_3.to_excel(writer, sheet_name='mdwsvm-ad')
