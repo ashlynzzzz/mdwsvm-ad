@@ -36,7 +36,6 @@ c_list = np.array([[[1.000e+00, 6.400e+01, 4.000e+00],
 
 for time_i in range(0, 100):
     np.random.seed(417 + 100 * time_i)  # set random seed
-    print(time_i)
     for prob_i in range(3):
         p1 = prob[prob_i]    # prob of class 1
         p2 = (1 - p1) / 2   # prob of class 2,3
